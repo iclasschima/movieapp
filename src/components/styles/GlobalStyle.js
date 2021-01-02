@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         font-family: 'PT Sans', sans-serif !important;
-        h1, p {
+        h1, p, button {
             font-family: 'PT Sans', sans-serif !important;
         }
     }

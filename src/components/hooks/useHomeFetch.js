@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { API_URL, API_KEY } from "../../config"
+import { POPULAR_BASE_URL } from "../../config"
 
 export const useHomeFetch = () => {
 
@@ -13,13 +13,15 @@ export const useHomeFetch = () => {
         setError(false)
         setLoading(true)
 
+        const isLoadMore = endpoint.search("page")
+
         try {
 
             const res = await axios.get(endpoint)
             const result = await res.data
             setState(state => ({
                 ...state,
-                movies: [...result.results],
+                movies: isLoadMore !== -1 ? [...state.movies, ...result.results] : [...result.results],
                 heroImage: state.heroImage || result.results[0],
                 currentPage: result.page,
                 totalPages: result.total_pages
@@ -34,7 +36,7 @@ export const useHomeFetch = () => {
     }
 
     useEffect(() =>{
-        fetchMovies(`${API_URL}movie/popular?api_key=${API_KEY}`)
+        fetchMovies(`${POPULAR_BASE_URL}`)
     }, [])
 
     return [{state, loading, error}, fetchMovies]
